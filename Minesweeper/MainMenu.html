@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Saper Ultra Game</title>
+		<link rel="stylesheet" href="assets/css/MainMenuStyle.css">
+		<script src="assets/js/MenuScript.js"></script>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	</head>
+
+	<body>
+		<div class="MenuContainer">
+			<div class="Menu">
+				<div class="InputGameFieldSize">
+					<div class="SizeInputField">
+						<input oninput="SetCustomInSelect()" type="number" id="WidthInputField">
+						
+						<div>ширина</div>
+					</div>
+	
+					<div class="SizeInputField">
+						<input oninput="SetCustomInSelect()" type="number" id="HeightInputField">
+
+						<div>высота</div>
+					</div>
+				</div>												
+			
+				<div class="ChoiseOf">
+					<select onchange="ChangeFieldSize()" id="FieldSizeDropdown" class="Dropdown">
+						<option value="small">маленькое поле</option>
+						<option value="medium">среднее поле</option>
+						<option value="large">большое поле</option>
+						<option value="custom">кастомное поле</option>
+					</select>
+
+					<div class="UnderLine"></div>
+				</div>
+
+				<div class="ChoiseOf">
+					<select onchange="ChangeDifficult()" id="DifficultiesDropdown" class="Dropdown">
+						<option value="easy">лёгкий</option>
+						<option value="hard">сложный</option>
+						<option value="impossible">невозможный</option>
+					</select>
+
+					<div class="UnderLine"></div>
+				</div>
+
+				<audio id="clickOnButton" src="assets/mediaFiles/audio/effects/ClickOnButton.mp3"></audio>
+	
+				<button onclick="StartGame(); handleClickForRestartButton();" class="StartGameButton">
+					<label>начать игру</label>
+
+					<audio id="LargeFieldSizeError" src="assets/mediaFiles/audio/yameteKudasaiAhh.mp3"></audio>
+				</button>
+
+				<script>
+					// функция для задержки перехода на другую страницу, чтобы звук нажатия на кнопку не прерывался
+					function handleClickForRestartButton() {
+						// Воспроизводим звук
+						ClickOnButtonSound();
+						// Задерживаем переход на другую страницу
+						setTimeout(() => {
+							window.location.href = 'GameField.html';
+						}, 100); // Задержка в 100 миллисекунд
+					}
+				</script>
+			</div>
+		</div>
+	</body>
+</html
