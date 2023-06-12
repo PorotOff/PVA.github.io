@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Saper Ultra Game</title>
+		<link rel="stylesheet" href="assets/css/MainMenuStyle.css">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	</head>
+	
+	<body>
+		<div id="MenuApp">
+			<div class="Menu">
+				<div class="InputGameFieldSize">
+					<div class="SizeInputField">
+						<input v-model="widthGameField" type="number" id="WidthInputField">
+
+						<div>ширина</div>
+					</div>
+					<div class="SizeInputField">
+						<input v-model="heightGameField" type="number" id="HeightInputField">
+
+						<div>высота</div>
+					</div>
+				</div>
+
+				<div class="ChoiseOf">
+					<select v-model="fieldSize" @change="changeFieldSize" class="Dropdown">
+						<option value="small">маленькое поле</option>
+						<option value="medium">среднее поле</option>
+						<option value="large">большое поле</option>
+						<option value="custom">кастомное поле</option>
+					</select>
+					
+					<div class="UnderLine"></div>
+				</div>
+
+				<div>
+					<div class="ChoiseOf">
+						<select @change="ChangeDifficult" id="DifficultiesDropdown" class="Dropdown">
+							<option value="easy">лёгкий</option>
+							<option value="hard">сложный</option>
+							<option value="impossible">невозможный</option>
+						</select>
+
+						<div class="UnderLine"></div>
+					</div>
+				</div>				  
+				
+				<audio id="clickOnButton" src="assets/mediaFiles/audio/effects/ClickOnButton.mp3"></audio>
+				
+				<div>
+					<button @click="handleClickForRestartButton" class="StartGameButton">
+					  	<label>начать игру</label>
+
+					  	<audio id="LargeFieldSizeError" src="assets/mediaFiles/audio/yameteKudasaiAhh.mp3"></audio>
+					</button>
+				</div>				  
+			</div>
+		</div>
+	</body>
+	
+	<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+	
+	<script src="assets/js/MenuScript.js"></script>
+</html>

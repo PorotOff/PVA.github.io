@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>SAPPER</title>
+		<link rel="stylesheet" href="assets/css/GameStyle.css">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	</head>
+
+	<header>
+		<div>
+			<audio id="BackgroundMusic" loop></audio>
+			
+			<audio id="clickOnButton" src="assets/mediaFiles/audio/effects/ClickOnButton.mp3"></audio>
+			
+			<audio id="digSound1" src="assets/mediaFiles/audio/effects/DigingSound.mp3"></audio>
+			<audio id="digSound2" src="assets/mediaFiles/audio/effects/DigingSound2.mp3"></audio>
+			
+			<audio id="flagSound1" src="assets/mediaFiles/audio/effects/Flag1.mp3"></audio>
+			<audio id="flagSound2" src="assets/mediaFiles/audio/effects/Flag2.mp3"></audio>
+			
+			<audio id="BassBoost" src="assets/mediaFiles/audio/effects/BassBoost.mp3"></audio>
+			<audio id="Boom" src="assets/mediaFiles/audio/effects/Boom.mp3"></audio>
+		</div>
+
+		<div class="ABOBA"></div>
+		<div class="ABIBA"></div>
+		
+		<div class="UIElements">
+			<button onclick="handleClickForHomeButton()" class="GameButton">домой</button>
+			
+			<div class="BombContainer">
+				<div class="GameTimer">время</div>
+			</div>
+			
+			<div class="FlagsCounter"><span>23</span><img src="assets/mediaFiles/images/flags/redFlag2.png"></div>
+			
+			<button onclick="handleClickForRestartButton()" class="GameButton">заново</button>
+			
+			<script>
+				// функция для задержки перехода на другую страницу, чтобы звук нажатия на кнопку не прерывался
+				function handleClickForRestartButton() {
+					// Воспроизводим звук
+					ClickOnButtonSound();
+					// Задерживаем переход на другую страницу
+					setTimeout(() => {
+						window.location.href = 'GameField.html';
+					}, 100); // Задержка в 100 миллисекунд
+				}
+				
+				// функция для задержки перехода на другую страницу, чтобы звук нажатия на кнопку не прерывался
+				function handleClickForHomeButton() {
+					// Воспроизводим звук
+					ClickOnButtonSound();
+					// Задерживаем переход на другую страницу
+					setTimeout(() => {
+						window.location.href = 'index.html';
+					}, 100); // Задержка в 100 миллисекунд
+				}
+				</script>
+		</div>
+	</header>
+	
+	<body>
+		<div class="GameFieldContainer">
+			<div class="GameField"></div>
+		</div>
+		
+		<script>
+			// Получаем элемент контейнера игрового поля
+			let gameFieldContainer = document.querySelector('.GameFieldContainer');
+			// Объявляем переменные для текущих координат
+			let currentX;
+			let currentY;
+			// Объявляем переменные для начальных координат
+			let initialX;
+			let initialY;
+			// Объявляем переменные для смещения
+			let xOffset = 0;
+			let yOffset = 0;
+			// Объявляем переменную для ускорения движения
+			const multipluingSpeed = 1.1;
+			
+			// Добавляем обработчики событий мыши
+			gameFieldContainer.addEventListener('mousedown', dragStart);
+			gameFieldContainer.addEventListener('mouseup', dragEnd);
+			gameFieldContainer.addEventListener('mousemove', drag);
+			
+			// Функция для обработки начала перетаскивания
+			function dragStart(event) {
+				// Проверяем, что нажата левая кнопка мыши
+				if (event.button === 1) {
+					event.preventDefault();
+					// Запоминаем начальные координаты
+					initialX = event.clientX - xOffset;
+					initialY = event.clientY - yOffset;
+					isDragging = true;
+				}
+			}
+			
+			// Функция для обработки перетаскивания
+			function drag(event) {
+				if (isDragging) {
+					event.preventDefault();
+					// Вычисляем текущие координаты
+					currentX = event.clientX - initialX;
+					currentY = event.clientY - initialY;
+					xOffset = currentX;
+					yOffset = currentY;
+					// Устанавливаем новое положение элемента
+					setTranslate(currentX, currentY, gameField);
+				}
+			}
+			
+			// Функция для обработки окончания перетаскивания
+			function dragEnd(event) {
+				initialX = currentX;
+				initialY = currentY;
+				isDragging = false;
+			}
+			
+			// Добавляем обработчики событий касания
+			gameFieldContainer.addEventListener("touchstart", startTouch, false);
+			gameFieldContainer.addEventListener("touchmove", touching, false);
+			gameFieldContainer.addEventListener("touchend", touchEnd, false);
+			
+			// Функция для обработки начала касания
+			function startTouch(event) {
+				if (event.changedTouches && event.changedTouches.length > 0) {
+					initialX = event.changedTouches[0].clientX - xOffset;
+					initialY = event.changedTouches[0].clientY - yOffset;
+				}
+			}
+			
+			// Функция для обработки касания
+			function touching(event) {
+				if (event.touches && event.touches.length > 0) {
+					currentX = event.touches[0].clientX - initialX;
+					currentY = event.touches[0].clientY - initialY;
+					
+					const dx = currentX - initialX;
+					const dy = currentY - initialY;
+					const distance = Math.sqrt(dx * dx + dy * dy);
+					
+					if (distance > 100) {
+						isDragging = true;
+					}
+					
+					if (isDragging) {
+						event.preventDefault();
+						xOffset = currentX;
+						yOffset = currentY;
+						setTranslate(currentX * multipluingSpeed, currentY * multipluingSpeed, gameField);
+					}
+				}
+			}
+			
+			// Функция для обработки окончания касания
+			function touchEnd(event) {
+				isDragging = false;
+			}
+			
+			// Функция для установки нового положения элемента
+			function setTranslate(xPos, yPos, el) {
+				el.style.transform = 'skew(-45deg) translate3d(' + xPos + 'px, ' + yPos + 'px, 0)';
+			}
+			</script>		   
+	</body>
+
+	<script src="assets/js/GameScript.js"></script>
+	<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</html>
